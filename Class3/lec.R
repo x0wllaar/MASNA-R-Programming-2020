@@ -31,7 +31,7 @@ matrixplot(dt_1)
 ##We can easily remove missing data
 dt_1_c <- na.omit(dt_1)
 matrixplot(dt_1_c)
-nrow(dt_1_c) == sum(dt1_compl)
+nrow(dt_1_c) == sum(complete.cases(dt_1_c))
 
                                         #Starting to work with data
 ##Using data.table
@@ -61,7 +61,7 @@ dt_1_c[Ozone > mean_ozone]
 dt_1_c[(Ozone > mean_ozone) & (Month == 9)]
 
 ##We can combine this with variable selection
-dt_1_c[(Ozone > mean_ozone) & (Month == 9), .(Ozone, Month, Day)]
+dt_1_cs <- dt_1_c[(Ozone > mean_ozone) & (Month == 9), .(Ozone, Month, Day)]
 
 ##We can add new variables to the data
 dt_1_c$CharO3 <- as.character(dt_1_c$Ozone)
@@ -83,7 +83,7 @@ dt_1_c[, CharO3DT := NULL]
 dt_1_c
 
 ##Sorting data by a variable
-##By default, the order is descending
+##By default, the order is ascending
 dt_1_c[order(Ozone)]
 ##We can reverse it by multiplying by -1
 dt_1_c[order(-1 * Ozone)]
@@ -157,7 +157,7 @@ pie(percent_table, main = "Observations by month")
 hist(dt_1_c$Solar.R)
 ##Or with some eye candy
 hist(dt_1_c$Solar.R,
-     col = "cadetblue",
+     col = "darkorchid1",
      main = "Solar Radiation Level",
      xlab = "Radiation Level",
      ylab = "Frequency",
@@ -166,6 +166,8 @@ hist(dt_1_c$Solar.R,
 
 ##Density plots
 plot(density(dt_1_c$Solar.R))
+hist(dt_1_c$Solar.R)
+line(density(dt_1_c$Solar.R))
 ##Or with some eye candy
 plot(density(dt_1_c$Solar.R),
      main = "Solar Radiation Level",
@@ -255,7 +257,7 @@ chisq.test(mtcars_table)
 ##There's some association, who would've known!
 ##Again, refer to Dr. Zaytsev, Dr. Kuskova and Polina for more information
 
-##For intervals scales and up, we can do more!
+##For interval scales and up, we can do more!
 ##The easiest thing is a scatterplot
 ##Very easy to do with base R
 plot(x = dt_mtcars$hp, y = dt_mtcars$qsec)
@@ -291,7 +293,8 @@ scatterplotMatrix(dt_mtcars[,-c("cyl", "carb", "vs", "am", "gear")])
 ##Here, we will use Pearson correlation
 ##The cor function, however, supports kendall and spearman with the method
 ##argument
-print(cor_mat <- cor(dt_mtcars[,-c("cyl", "carb", "vs", "am", "gear")]))
+print(cor_mat <- cor(dt_mtcars[,-c("cyl", "carb", "vs", "am", "gear")], 
+                     method = "kendall"))
 
 ##It looks boring :(
 ##The corrplot package gives us the tools to visualize it
