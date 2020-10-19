@@ -4,7 +4,7 @@
  - Swirl (a good tutorial to the syntax and basics of the language) -
    https://swirlstats.com 
  - Наглядная статистика. Используем R! (A Russian
-   language books on basic statistics and R) -
+   language book on basic statistics and R) -
    https://cran.r-project.org/doc/contrib/Shipunov-rbook.pdf 
  - The Art of
    R Programming (An English language book that covers the basics (and
